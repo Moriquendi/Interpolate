@@ -6,7 +6,8 @@
 //  Copyright © 2016 Roy Marmelstein. All rights reserved.
 //
 
-import UIKit
+import Foundation
+import QuartzCore
 
 /// Interpolate class. Responsible for conducting interpolations.
 open class Interpolate {
@@ -41,7 +42,9 @@ open class Interpolate {
     fileprivate var internalProgress: CGFloat = 0.0
     fileprivate var targetProgress: CGFloat = 0.0
     fileprivate var apply: ((Interpolatable) -> ())?
+    #if !os(macOS)
     fileprivate var displayLink: CADisplayLink?
+    #endif
     
     // Animation completion handler, called when animate function stops.
     fileprivate var animationCompletion:(()->())?
@@ -106,16 +109,20 @@ open class Interpolate {
         self.targetProgress = targetProgress
         self.duration = duration
         self.animationCompletion = completion
+        #if !os(macOS)
         displayLink?.invalidate()
         displayLink = CADisplayLink(target: self, selector: #selector(next))
         displayLink?.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
+        #endif
     }
     
     /**
      Stops animation.
      */
     open func stopAnimation() {
+        #if !os(macOS)
         displayLink?.invalidate()
+        #endif
         animationCompletion?()
     }
     
