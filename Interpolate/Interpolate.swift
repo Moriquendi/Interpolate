@@ -20,8 +20,9 @@ open class Interpolate {
             // We make sure progress is between 0.0 and 1.0
             progress = max(0, min(progress, 1.0))
             internalProgress = self.internalAdjustedProgress(progress)
-            let valueForProgress = internalProgress*(valuesCount - 1)
-            let diffVectorIndex = max(Int(ceil(valueForProgress)) - 1, 0)
+            let valueForProgress = internalProgress * (valuesCount - 1)
+            var diffVectorIndex = max(Int(ceil(valueForProgress)) - 1, 0)
+            diffVectorIndex = min(diffVectorIndex, diffVectors.count - 1)
             let diffVector = diffVectors[diffVectorIndex]
             let originValue = values[diffVectorIndex]
             let adjustedProgress = valueForProgress - CGFloat(diffVectorIndex)
