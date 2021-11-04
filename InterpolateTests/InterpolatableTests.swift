@@ -75,7 +75,7 @@ class InterpolatableTests: XCTestCase {
     }
 
     func testVectorizeUIColor() {
-        let original = UIColor.red
+        let original = NativeColor.red
         let vector = original.vectorize()
         XCTAssertTrue(vector.vectors.count == 4)
         XCTAssertEqual(vector.vectors[0], 1.0)
